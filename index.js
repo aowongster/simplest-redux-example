@@ -1,39 +1,13 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import { Provider, connect } from 'react-redux'
 
-import Counter from './components/counter'
-import counterReducer from './reducers/counter-reducer';
+// The Provider makes the store generally available to all child components
+import { Provider } from 'react-redux'
 
-// Store
-const store = createStore(counterReducer)
+import store from './reducers/store'
+import App from './components/app'
 
-// Map Redux state to component props
-function mapStateToProps (state) {
-  return {
-    value: state.count
-  }
-}
-
-// Actions
-const increaseAction = {type: 'increase'}
-const decreaseAction = {type: 'decrease'}
-
-// Map Redux actions to component props
-function mapDispatchToProps (dispatch) {
-  return {
-    onIncreaseClick: () => dispatch(increaseAction),
-    onDecreaseClick: () => dispatch(decreaseAction)
-  }
-}
-
-// Connected Component
-const App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Counter)
-
+// Bootstrap and render the component
 ReactDOM.render(
   <Provider store={store}>
     <App />
