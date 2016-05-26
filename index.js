@@ -1,63 +1,13 @@
-import React, { Component, PropTypes } from 'react'
+import React from 'react'
 import ReactDOM from 'react-dom'
-import { createStore } from 'redux'
-import { Provider, connect } from 'react-redux'
 
-// React component
-class Counter extends Component {
-  render () {
-    const { value, onIncreaseClick } = this.props
-    return (
-      <div>
-        <span>{value}</span>
-        <button onClick={onIncreaseClick}>Increase</button>
-      </div>
-    )
-  }
-}
+// The Provider makes the store generally available to all child components
+import { Provider } from 'react-redux'
 
-Counter.propTypes = {
-  value: PropTypes.number.isRequired,
-  onIncreaseClick: PropTypes.func.isRequired
-}
+import store from './reducers/store'
+import App from './components/app'
 
-// Action
-const increaseAction = {type: 'increase'}
-
-// Reducer
-function counter (state = {count: 0}, action) {
-  const count = state.count
-  switch (action.type) {
-    case 'increase':
-      return {count: count + 1}
-    default:
-      return state
-  }
-}
-
-// Store
-const store = createStore(counter)
-
-// Map Redux state to component props
-function mapStateToProps (state) {
-  return {
-    value: state.count
-  }
-}
-
-// Map Redux actions to component props
-function mapDispatchToProps (dispatch) {
-  return {
-    onIncreaseClick: () => dispatch(increaseAction)
-  }
-}
-
-// Connected Component
-const App = connect(
-  mapStateToProps,
-  mapDispatchToProps
-)(Counter)
-
+// Bootstrap and render the component
 ReactDOM.render(
   <Provider store={store}>
     <App />
